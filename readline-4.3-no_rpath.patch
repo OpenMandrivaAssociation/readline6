@@ -1,0 +1,11 @@
+--- readline-4.3/support/shobj-conf.no_rpath	2002-04-17 19:27:46.000000000 +0200
++++ readline-4.3/support/shobj-conf	2003-11-28 14:48:22.000000000 +0100
+@@ -102,7 +102,7 @@
+ 	SHOBJ_LD='${CC}'
+ 	SHOBJ_LDFLAGS='-shared -Wl,-soname,$@'
+ 
+-	SHLIB_XLDFLAGS='-Wl,-rpath,$(libdir) -Wl,-soname,`basename $@ $(SHLIB_MINOR)`'
++	SHLIB_XLDFLAGS='-Wl,-soname,`basename $@ $(SHLIB_MINOR)`'
+ 	SHLIB_LIBVERSION='$(SHLIB_LIBSUFF).$(SHLIB_MAJOR)$(SHLIB_MINOR)'
+ 	;;
+ 
