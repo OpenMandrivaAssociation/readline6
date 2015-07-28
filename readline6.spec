@@ -1,7 +1,7 @@
 %define	major	6
-%define	libname	%mklibname %{name} %{major}
+%define	libname	%mklibname readline %{major}
 %define	libhist	%mklibname history %{major}
-%define	devname	%mklibname %{name} -d
+%define	devname	%mklibname readline -d
 %define patchlevel 8
 
 %bcond_without	uclibc
