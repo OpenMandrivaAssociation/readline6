@@ -9,7 +9,7 @@
 Summary:	Old version of a library for reading lines from a terminal
 Name:		readline6
 Version:	6.3
-Release:	12
+Release:	13
 License:	GPLv2+
 Group:		System/Libraries
 Url:		http://tiswww.case.edu/php/chet/readline/rltop.html
