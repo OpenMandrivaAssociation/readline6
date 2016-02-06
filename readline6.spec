@@ -1,7 +1,7 @@
-%define	major	6
+%define	major 6
 %define	libname	%mklibname readline %{major}
 %define	libhist	%mklibname history %{major}
-%define	devname	%mklibname readline -d
+%define	devname	%mklibname readline%{major} -d
 %define patchlevel 8
 
 %bcond_with	uclibc
@@ -9,7 +9,7 @@
 Summary:	Old version of a library for reading lines from a terminal
 Name:		readline6
 Version:	6.3
-Release:	13
+Release:	14
 License:	GPLv2+
 Group:		System/Libraries
 Url:		http://tiswww.case.edu/php/chet/readline/rltop.html
