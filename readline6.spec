@@ -4,8 +4,6 @@
 %define	devname	%mklibname readline%{major} -d
 %define patchlevel 8
 
-%bcond_with	uclibc
-
 Summary:	Old version of a library for reading lines from a terminal
 Name:		readline6
 Version:	6.3
@@ -23,10 +21,6 @@ Patch1005:	rl-attribute.patch
 Patch1006:	readline-6.0-fix-shared-libs-perms.patch
 Patch1008:	readline-6.2-fix-missing-linkage.patch
 BuildRequires:	ncurses-devel
-%if %{with uclibc}
-BuildRequires:	uClibc-devel >= 0.9.33.2-11
-BuildRequires:	uclibc-ncurses-devel
-%endif
 
 %description
 The "readline" library will read a line from the terminal and return it,
@@ -51,33 +45,6 @@ linked to readline.
 This is an old version of readline, provided for compatibility with legacy
 applications only.
 
-%if %{with uclibc}
-%package -n	uclibc-%{libname}
-Summary:	Old version of the shared libreadline library for readline (uClibc build)
-Group:		System/Libraries
-Conflicts:	uclibc-%{_lib}history < 6.2-13
-
-%description -n	uclibc-%{libname}
-This package contains the library needed to run programs dynamically
-linked to readline.
-
-%package -n	uclibc-%{devname}
-Summary:	Old version of files for developing programs that use the readline library
-Group:		Development/C
-Requires:	%{devname} = %{EVRD}
-Requires:	uclibc-%{libname} = %{EVRD}
-Requires:	uclibc-%{libhist} = %{EVRD}
-Provides:	uclibc-%{name}-devel = %{EVRD}
-Conflicts:	%{devname} < 6.3-9
-
-%description -n	uclibc-%{devname}
-The "readline" library will read a line from the terminal and return it,
-using prompt as a prompt.  If prompt is null, no prompt is issued.  The
-line returned is allocated with malloc(3), so the caller must free it when
-finished.  The line returned has the final newline removed, so only the
-text of the line remains.
-%endif
-
 %package -n	%{libhist}
 Summary:	Old version of the shared libhistory library for readline
 Group:		System/Libraries
@@ -86,16 +53,6 @@ Obsoletes:	%{_lib}readline6 < 6.2-13
 
 %description -n	%{libhist}
 This package contains the libhistory library from readline.
-
-%if %{with uclibc}
-%package -n	uclibc-%{libhist}
-Summary:	Old version of the shared libhistory library for readline (uClibc Build)
-Group:		System/Libraries
-Conflicts:	uclibc-%{_lib}readline6 < 6.2-13
-
-%description -n	uclibc-%{libhist}
-This package contains the libhistory library from readline.
-%endif
 
 %package	doc
 Summary:	Readline documentation in GNU info format
@@ -132,42 +89,15 @@ sed -e 's#/usr/local#%{_prefix}#g' -i doc/texi2html
 libtoolize --copy --force
 
 %build
-CONFIGURE_TOP=$PWD
-
-%if %{with uclibc}
-mkdir -p uclibc
-pushd uclibc
-%uclibc_configure \
-	--enable-static=no \
-	--with-curses \
-	--enable-multibyte
-
-%make
-popd
-%endif
-
-mkdir -p system
-pushd system
 %configure \
 	--enable-static=no \
 	--with-curses \
 	--enable-multibyte
 
 %make
-popd
 
 %install
-%if %{with uclibc}
-%makeinstall_std -C uclibc
-install -d %{buildroot}%{uclibc_root}/%{_lib}
-for l in libhistory.so libreadline.so; do
-	rm %{buildroot}%{uclibc_root}%{_libdir}/${l}
-	mv %{buildroot}%{uclibc_root}%{_libdir}/${l}.%{major}* %{buildroot}%{uclibc_root}/%{_lib}
-	ln -sr %{buildroot}%{uclibc_root}/%{_lib}/${l}.%{major}.* %{buildroot}%{uclibc_root}%{_libdir}/${l}
-done
-%endif
-
-%makeinstall_std -C system
+%makeinstall_std
 # put all libs in /lib because some package needs it
 # before /usr is mounted
 install -d %{buildroot}/%{_lib}
@@ -197,11 +127,3 @@ rm -rf \
 
 %files -n %{libname}
 /%{_lib}/libreadline.so.%{major}*
-
-%if %{with uclibc}
-%files -n uclibc-%{libhist}
-%{uclibc_root}/%{_lib}/libhistory.so.%{major}*
-
-%files -n uclibc-%{libname}
-%{uclibc_root}/%{_lib}/libreadline.so.%{major}*
-%endif
