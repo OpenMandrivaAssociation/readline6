@@ -83,7 +83,7 @@ text of the line remains.
 # Upstream patches
 %(for i in `seq 1 %{patchlevel}`; do echo %%patch$i -p0; done)
 
-%apply_patches
+%autopatch -p1
 
 sed -e 's#/usr/local#%{_prefix}#g' -i doc/texi2html
 libtoolize --copy --force
