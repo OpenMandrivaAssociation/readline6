@@ -10,7 +10,7 @@ Version:	6.3
 Release:	15
 License:	GPLv2+
 Group:		System/Libraries
-Url:		http://tiswww.case.edu/php/chet/readline/rltop.html
+Url:		https://tiswww.case.edu/php/chet/readline/rltop.html
 Source0:	ftp://ftp.gnu.org/gnu/readline/readline-%{version}.tar.gz
 # Upstream patches
 %(for i in `seq 1 %{patchlevel}`; do echo Patch$i: ftp://ftp.gnu.org/pub/gnu/readline/readline-%{version}-patches/readline`echo %{version} |sed -e 's,\\.,,g'`-`echo 000$i |rev |cut -b1-3 |rev`; done)
