@@ -20,6 +20,11 @@ Patch1004:	rl-header.patch
 Patch1005:	rl-attribute.patch
 Patch1006:	readline-6.0-fix-shared-libs-perms.patch
 Patch1008:	readline-6.2-fix-missing-linkage.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	ncurses-devel
 
 %description
